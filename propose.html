@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propose</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+    <h1 class="propose-title">Will You Be Mine? 💖</h1>
+    <form id="proposeForm">
+        <input type="text" name="answer" id="answerInput" placeholder="Type your answer here" required>
+        <button type="submit" class="btn">Send Answer</button>
+    </form>
+    <p id="responseMessage"></p>
+    <a href="index.html" class="btn">Back Home</a>
+</div>
+
+<script>
+document.getElementById("proposeForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    const answer = document.getElementById("answerInput").value;
+    const responseMessage = document.getElementById("responseMessage");
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/send-answer", {
+            method: "POST",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({answer})
+        });
+        const data = await response.json();
+        responseMessage.textContent = data.message;
+        if(data.status === "success") document.getElementById("answerInput").value = '';
+    } catch(err){
+        responseMessage.textContent = "Error sending answer!";
+    }
+});
+</script>
+</body>
+</html>
