@@ -3,7 +3,7 @@ from twilio.rest import Client
 from flask_cors import CORS
 import os
 
-app = Flask(name)
+app = Flask(__name__)
 CORS(app)
 
 # Twilio credentials
@@ -58,5 +58,5 @@ def send_answer():
     except Exception as e:
         return jsonify({'status':'error','message':str(e)})
 
-if name == "main":
+if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5000)
